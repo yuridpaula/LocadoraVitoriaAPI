@@ -10,23 +10,40 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotNull
 	private String nome;
+
+	@NotNull
 	private String email;
+
+	@NotNull
 	private String senha;
+
+	@Column(name = "data_criacao", nullable = false)
 	private Date dataCriacao;
-	//private PerfilEnum perfil = PerfilEnum.ROLE_ADMIN;
 
 	public Usuario() {
 
+	}
+
+	public Usuario(Long id, String nome, String email, String senha, Date dataCriacao) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.dataCriacao = dataCriacao;
 	}
 
 	public Long getId() {
@@ -37,7 +54,6 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "nome", nullable = false)
 	public String getNome() {
 		return nome;
 	}
@@ -46,7 +62,6 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(name = "email", nullable = false)
 	public String getEmail() {
 		return email;
 	}
@@ -55,7 +70,6 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "senha", nullable = false)
 	public String getSenha() {
 		return senha;
 	}
@@ -64,7 +78,6 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 
-	@Column(name = "data_criacao", nullable = false)
 	public Date getDataCriacao() {
 		return dataCriacao;
 	}
@@ -78,10 +91,6 @@ public class Usuario implements Serializable {
 		final Date atual = new Date();
 		dataCriacao = atual;
 	}
-//	@Transient
-//	public PerfilEnum getPerfil() {
-//		return perfil;
-//	}
 
 	@Override
 	public String toString() {

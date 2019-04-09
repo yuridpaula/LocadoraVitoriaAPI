@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.locadoravitoria.api.dtos.UsuarioDto;
 import com.locadoravitoria.api.entities.Usuario;
-import com.locadoravitoria.api.response.Response;
 import com.locadoravitoria.api.services.UsuarioService;
 import com.locadoravitoria.api.utils.PasswordUtils;
+import com.locadoravitoria.api.utils.Response;
 
 @RestController
 @RequestMapping("/api/usuario")

@@ -36,7 +36,6 @@ public class Produto implements Serializable {
 	@OneToOne
 	private Grupo grupo;
 	
-	
 	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	   @JoinTable(name="combo",
 	             joinColumns={@JoinColumn(name="produto_id",

@@ -12,16 +12,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-@Entity(name = "cliente")
+@Entity
 @Table(name = "cliente")
 public class Cliente implements Serializable {
 
-	private static final long serialVersionUID = -2095759777951428889L;
+	private static final long serialVersionUID = -3093362864518823057L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +64,8 @@ public class Cliente implements Serializable {
 	@Column(nullable = false)
 	private String uf;
 
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cliente_id")
 	List<Contato> contatos = new ArrayList<>();
 
 	public Cliente() {

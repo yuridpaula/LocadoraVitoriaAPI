@@ -1,4 +1,4 @@
-package com.locadoravitoria.api.response;
+package com.locadoravitoria.api.utils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.locadoravitoria.api.entities.Cliente;
-import com.locadoravitoria.api.response.Response;
 import com.locadoravitoria.api.services.ClienteService;
+import com.locadoravitoria.api.utils.Response;
 
 @RestController
 @RequestMapping("/api/cliente")

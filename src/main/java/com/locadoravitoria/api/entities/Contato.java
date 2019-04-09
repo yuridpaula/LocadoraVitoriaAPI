@@ -7,33 +7,19 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-@Entity(name = "contato")
+@Entity
 @Table(name = "contato")
 public class Contato implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -9093014308023062656L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", nullable = false)
-	@JsonBackReference
-    private Cliente cliente;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	private TipoContato tipoContato;
 
@@ -49,10 +35,7 @@ public class Contato implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
-	
-	
+
 	public TipoContato getTipoContato() {
 		return tipoContato;
 	}
@@ -60,15 +43,6 @@ public class Contato implements Serializable {
 	public void setTipoContato(TipoContato tipoContato) {
 		this.tipoContato = tipoContato;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
 
 	public String getValor() {
 		return valor;

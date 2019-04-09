@@ -1,4 +1,4 @@
-package com.locadoravitoria.api;
+package com.locadoravitoria.api.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

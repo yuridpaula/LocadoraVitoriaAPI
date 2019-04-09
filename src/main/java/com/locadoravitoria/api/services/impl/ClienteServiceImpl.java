@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.locadoravitoria.api.entities.Cliente;
-import com.locadoravitoria.api.entities.Contato;
 import com.locadoravitoria.api.repositories.ClienteRepository;
-import com.locadoravitoria.api.repositories.ContatoRepository;
 import com.locadoravitoria.api.services.ClienteService;
 
 @Service
@@ -21,9 +19,6 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-
-	@Autowired
-	private ContatoRepository contatoRepository;
 
 	@Override
 	public Optional<Cliente> buscarPorId(Long id) {
@@ -46,17 +41,6 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Cliente persistir(Cliente cliente) {
 		log.info("Persistindo cliente: {}", cliente);
-
-		List<Contato> contatos = contatoRepository.findByCliente(cliente);
-
-		contatos.forEach(c -> {
-			if (cliente.getContatos().indexOf(c) == -1) {
-				contatoRepository.delete(c);
-			}
-		});
-
-		cliente.getContatos().forEach(c -> c.setCliente(cliente));
-
 		return clienteRepository.save(cliente);
 	}
 

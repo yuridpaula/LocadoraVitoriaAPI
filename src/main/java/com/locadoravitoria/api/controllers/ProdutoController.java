@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.locadoravitoria.api.entities.Produto;
-import com.locadoravitoria.api.response.Response;
 import com.locadoravitoria.api.services.ProdutoService;
+import com.locadoravitoria.api.utils.Response;
 
 @RestController
 @RequestMapping("/api/produto")
