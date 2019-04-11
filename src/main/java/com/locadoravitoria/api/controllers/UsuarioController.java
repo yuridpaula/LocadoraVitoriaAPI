@@ -43,11 +43,6 @@ public class UsuarioController {
 
 	}
 
-	/**
-	 * Retorna uma lista de todos Usuarios
-	 * 
-	 * @return ResponseEntity<Response<List<UsuarioDto>>>
-	 */
 	@GetMapping
 	public ResponseEntity<Response<List<UsuarioDto>>> listarTodos() {
 		Response<List<UsuarioDto>> response = new Response<List<UsuarioDto>>();
@@ -68,12 +63,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * Método de busca do Usuario por ID
-	 * 
-	 * @param id
-	 * @return ResponseEntity<Response<UsuarioDto>>
-	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Response<UsuarioDto>> buscarPorId(@PathVariable("id") Long id) {
 
@@ -92,14 +81,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * Cadastra um usuario no sistema
-	 * 
-	 * @param UsuarioDto
-	 * @param result
-	 * @return ResponseEntity<Response<UsuarioDto>>
-	 * @throws NoSuchAlgorithmException
-	 */
 	@PostMapping
 	public ResponseEntity<Response<UsuarioDto>> cadastrar(@Valid @RequestBody UsuarioDto dto, BindingResult result)
 			throws NoSuchAlgorithmException {
@@ -123,12 +104,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * Remove um usuario
-	 * 
-	 * @param id
-	 * @return ResponseEntity<Response<String>>
-	 */
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
 		log.info("Deletando usuario para o ID: {}", id);
@@ -147,15 +122,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * Método de atualização do usuario
-	 * 
-	 * @param id
-	 * @param UsuarioDto
-	 * @param result
-	 * @return ResponseEntity<Response<UsuarioDto>>
-	 * @throws NoSuchAlgorithmException
-	 */
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Response<UsuarioDto>> atualizar(@PathVariable("id") Long id, UsuarioDto dto,
 			BindingResult result) throws NoSuchAlgorithmException {
@@ -180,12 +146,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * Método de busca por nome
-	 * 
-	 * @param nome
-	 * @return ResponseEntity<Response<List<UsuarioDto>>>
-	 */
 	@GetMapping(value = "/nome/{nome}")
 	public ResponseEntity<Response<List<UsuarioDto>>> buscarPorNome(@PathVariable("nome") String nome) {
 
@@ -201,35 +161,20 @@ public class UsuarioController {
 		}
 
 		response.setData(
-				usuarios.stream()
-					.map(usuario -> this.converterUsuarioParaDto(usuario))
-					.collect(Collectors.toList()));
+				usuarios.stream().map(usuario -> this.converterUsuarioParaDto(usuario)).collect(Collectors.toList()));
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * Validações Especificas
-	 * 
-	 * @param UsuarioDto
-	 * @param result
-	 */
 	private void validarDadosExistentes(UsuarioDto usuarioDto, BindingResult result) {
 		if (!this.usuarioService.buscarPorEmail(usuarioDto.getEmail()).isEmpty()) {
 			result.addError(new ObjectError("email", "Email já cadastrado"));
 		}
-			
+
 		if (usuarioDto.getId() != null) {
 			result.addError(new ObjectError("Id", "Usuario possui id, utilizar método PUT para atualizar dados."));
 		}
 	}
 
-	/**
-	 * Converte UsuarioDto para Usuario
-	 * 
-	 * @param UsuarioDto
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 */
 	public Usuario converterDtoParaUsuario(UsuarioDto dto) throws NoSuchAlgorithmException {
 		Usuario usuario = new Usuario();
 		usuario.setNome(dto.getNome());
@@ -239,12 +184,6 @@ public class UsuarioController {
 		return usuario;
 	}
 
-	/**
-	 * Converte Usuario para UsuarioDto
-	 * 
-	 * @param usuario
-	 * @return
-	 */
 	public UsuarioDto converterUsuarioParaDto(Usuario usuario) {
 		UsuarioDto dto = new UsuarioDto();
 		dto.setId(usuario.getId());

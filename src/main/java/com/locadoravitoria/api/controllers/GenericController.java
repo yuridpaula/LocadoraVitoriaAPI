@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -31,11 +32,6 @@ public abstract class GenericController<T, ID extends Serializable> {
 
 	}
 	
-	/**
-	 * Retorna uma lista de todas entidades
-	 * 
-	 * @return ResponseEntity<Response<List<T>>>
-	 */
 	@GetMapping
 	public ResponseEntity<Response<List<T>>> listarTodos() {
 		Response<List<T>> response = new Response<List<T>>();
@@ -52,11 +48,6 @@ public abstract class GenericController<T, ID extends Serializable> {
 		return ResponseEntity.ok(response);
 	}
 
-	/**
-	 * retorna uma entidade pelo ID
-	 * @param id
-	 * @return ResponseEntity<Response<T>>
-	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Response<T>> buscarPorId(@PathVariable("id") ID id) {
 
@@ -75,12 +66,18 @@ public abstract class GenericController<T, ID extends Serializable> {
 		return ResponseEntity.ok(response);
 	}
 	
-	/**
-	 * Remove uma entidade
-	 * 
-	 * @param id
-	 * @return ResponseEntity<Response<String>>
-	 */
+	@PostMapping
+	public ResponseEntity<Response<T>> cadastrar(@Valid @RequestBody T entity, BindingResult result) {
+
+		log.info("Cadastrando entidade: {}", entity);
+		Response<T> response = new Response<T>();
+
+		this.service.persistir(entity);
+
+		response.setData(entity);
+		return ResponseEntity.ok(response);
+	}
+
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response<String>> remover(@PathVariable("id") ID id) {
 		log.info("Deletando entidade para o ID: {}", id);
@@ -99,14 +96,6 @@ public abstract class GenericController<T, ID extends Serializable> {
 		return ResponseEntity.ok(response);
 	}
 	
-	/**
-	 * Método de atualização da entidade
-	 * 
-	 * @param id
-	 * @param T
-	 * @param result
-	 * @return ResponseEntity<Response<T>>
-	 */
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Response<T>> atualizar(@PathVariable("id") ID id, @Valid @RequestBody T entity,
 			BindingResult result) {

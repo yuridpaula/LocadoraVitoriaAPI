@@ -1,14 +1,12 @@
 package com.locadoravitoria.api.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -23,17 +21,14 @@ public class Grupo implements Serializable {
 	@Column(name = "nome", nullable = false)
 	private String nome;
 
-	@Column(name = "data_criacao", nullable = false)
-	private Date dataCriacao;
 
 	public Grupo() {
 	}
 
-	public Grupo(Long id, String nome, Date dataCriacao) {
+	public Grupo(Long id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.dataCriacao = dataCriacao;
 	}
 	
 	public Grupo(Long id) {
@@ -57,23 +52,9 @@ public class Grupo implements Serializable {
 		this.nome = nome;
 	}
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	@PrePersist
-	public void prePersist() {
-		final Date atual = new Date();
-		dataCriacao = atual;
-	}
-
 	@Override
 	public String toString() {
-		return "Grupo [id=" + id + ", nome=" + nome + ", dataCriacao=" + dataCriacao + "]";
+		return "Grupo [id=" + id + ", nome=" + nome + "]";
 	}
 
 }

@@ -1,8 +1,8 @@
 package com.locadoravitoria.api.entities;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,20 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 @Entity
 @Table(name = "produto")
 public class Produto implements Serializable {
@@ -42,12 +32,11 @@ public class Produto implements Serializable {
 
 	@OneToOne
 	private Grupo grupo;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "produto_pai_id")
-	//@JsonBackReference
 	List<Sub> subs = new ArrayList<>();
-	
+
 //	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 //	   @JoinTable(name="combo",
 //	             joinColumns={@JoinColumn(name="produto_id",
@@ -56,9 +45,6 @@ public class Produto implements Serializable {
 //	               referencedColumnName="id")})
 //	@JsonManagedReference   
 //	private List<Produto> combo;
-	
-	@Column(name = "data_criacao", nullable = false)
-	private Date dataCriacao;
 
 	@Column(name = "caracteristica", nullable = false)
 	private String caracteristica;
@@ -90,14 +76,6 @@ public class Produto implements Serializable {
 		this.grupo = grupo;
 	}
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
 	public String getCaracteristica() {
 		return caracteristica;
 	}
@@ -105,8 +83,7 @@ public class Produto implements Serializable {
 	public void setCaracteristica(String caracteristica) {
 		this.caracteristica = caracteristica;
 	}
-	
-	
+
 	public List<Sub> getSubs() {
 		return subs;
 	}
@@ -115,16 +92,9 @@ public class Produto implements Serializable {
 		this.subs = subs;
 	}
 
-	@PrePersist
-	public void prePersist() {
-		final Date atual = new Date();
-		dataCriacao = atual;
-	}
-
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", grupo=" + grupo + ", dataCriacao=" + dataCriacao
-				+ ", caracteristica=" + caracteristica +  "]";
+		return "Produto [id=" + id + ", nome=" + nome + ", grupo=" + grupo + ", caracteristica=" + caracteristica + "]";
 	}
 
 }

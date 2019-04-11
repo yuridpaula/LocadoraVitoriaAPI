@@ -9,6 +9,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
@@ -28,10 +29,17 @@ public class SwaggerConfig {
 				.build().apiInfo(apiInfo());
 	}
 
-	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Locadora Vitoria API")
-				.description("Documentação da API de acesso aos endpoints do projeto Locadora Vitoria.").version("1.0").build();
-	}
+	
+private ApiInfo apiInfo() {
+    	
+    	ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
+    	apiInfoBuilder.title("Locadora Vitoria API");
+    	apiInfoBuilder.description("Documentação da API de acesso aos endpoints do projeto Locadora Vitoria.");
+    	apiInfoBuilder.version("1.0");
+    	apiInfoBuilder.contact(new Contact("Yuri de Paula", "https://github.com/yuridpaula", "yuriodp@gmail.com"));
+    	
+    	return apiInfoBuilder.build();
+    }
 
 	/**
 	 * Faz a autenticação direta pelo JWT fixa com o email informado, apenas para

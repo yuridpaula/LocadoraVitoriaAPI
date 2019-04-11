@@ -31,15 +31,19 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public Produto persistir(Produto produto) {
 		log.info("Persistindo produto: {}", produto);
 		
+		this.produtoRepository.save(produto);
+		
 		if (produto.getSubs().isEmpty()) {
 			Sub sub = new Sub();
 			sub.setProdutoFilho(new ProdutoFilho(produto.getId()));
 			sub.setQuantidade((long) 1);
 			
 			produto.getSubs().add(sub);
+			
+			this.produtoRepository.save(produto);
 		}
 		
-		return this.produtoRepository.save(produto);
+		return produto; 
 	}
 
 	@Override
