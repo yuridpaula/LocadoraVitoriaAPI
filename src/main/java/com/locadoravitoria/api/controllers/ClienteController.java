@@ -85,30 +85,6 @@ public class ClienteController {
 	}
 
 	/**
-	 * Remove um cliente
-	 * 
-	 * @param id
-	 * @return ResponseEntity<Response<String>>
-	 */
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
-		log.info("Deletando cliente para o ID: {}", id);
-
-		Response<String> response = new Response<String>();
-		Optional<Cliente> cliente = this.clienteService.buscarPorId(id);
-
-		if (!cliente.isPresent()) {
-			log.info("Erro ao remover cliente. Cliente não encontrado para o ID: {}", id);
-			response.getErrors().add("Erro ao remover cliente. Cliente não encontrado para o ID: " + id);
-			return ResponseEntity.badRequest().body(response);
-		}
-
-		this.clienteService.removerCliente(cliente.get());
-		response.setData("Cliente ID " + id + " deleteado.");
-		return ResponseEntity.ok(response);
-	}
-
-	/**
 	 * Cadastra um Cliente no sistema
 	 * 
 	 * @param Cliente
@@ -132,6 +108,30 @@ public class ClienteController {
 		this.clienteService.persistir(cliente);
 
 		response.setData(cliente);
+		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * Remove um cliente
+	 * 
+	 * @param id
+	 * @return ResponseEntity<Response<String>>
+	 */
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
+		log.info("Deletando cliente para o ID: {}", id);
+
+		Response<String> response = new Response<String>();
+		Optional<Cliente> cliente = this.clienteService.buscarPorId(id);
+
+		if (!cliente.isPresent()) {
+			log.info("Erro ao remover cliente. Cliente não encontrado para o ID: {}", id);
+			response.getErrors().add("Erro ao remover cliente. Cliente não encontrado para o ID: " + id);
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		this.clienteService.remover(cliente.get());
+		response.setData("Cliente ID " + id + " deletado.");
 		return ResponseEntity.ok(response);
 	}
 

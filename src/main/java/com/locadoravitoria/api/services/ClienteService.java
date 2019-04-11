@@ -1,19 +1,10 @@
 package com.locadoravitoria.api.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.locadoravitoria.api.entities.Cliente;
 
-public interface ClienteService {
-	/**
-	 * Retorna o cliente
-	 * 
-	 * @param id
-	 * @return Optional<Cliente>
-	 */
-	Optional<Cliente> buscarPorId(Long id);
-
+public interface ClienteService extends GenericService<Cliente, Long> {
 	/**
 	 * Retorna uma lista de clientes
 	 * 
@@ -29,27 +20,5 @@ public interface ClienteService {
 	 * @return Optional<Cliente>
 	 */
 	List<Cliente> buscarPorContatoValor(String contatoValor);
-
-	/**
-	 * Cadastra um novo cliente
-	 * 
-	 * @param Cliente
-	 * @return Cliente
-	 */
-	Cliente persistir(Cliente cliente);
-
-	/**
-	 * Remove um Cliente
-	 * 
-	 * @param Cliente
-	 */
-	void removerCliente(Cliente cliente);
-
-	/**
-	 * Lista todos os clientes
-	 * 
-	 * @return List<Cliente>
-	 */
-	List<Cliente> listarTodos();
 
 }

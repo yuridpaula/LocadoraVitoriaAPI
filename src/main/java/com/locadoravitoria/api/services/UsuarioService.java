@@ -1,42 +1,20 @@
 package com.locadoravitoria.api.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.locadoravitoria.api.entities.Usuario;
 
-public interface UsuarioService {
+public interface UsuarioService extends GenericService<Usuario, Long> {
+		
 	/**
-	 * Retorna o usuário
-	 * @param id
-	 * @return Optional<Usuario>
-	 */
-	Optional<Usuario> buscarPorId(Long id);
-	
-	/**
-	 * Cadastra um novo usuário
-	 * @param usuario
-	 * @return Usuario
-	 */
-	Usuario persistir(Usuario usuario);
-	
-	/**
-	 * Retorna o usuário
+	 * Retorna uma lista de usuários pelo email
 	 * @param email
-	 * @return Optional<Usuario>
+	 * @return List<Usuario>
 	 */
-	Optional<Usuario> buscarPorEmail(String email);
+	List<Usuario> buscarPorEmail(String email);
 	
 	/**
-	 * Remove um Usuario
-	 * 
-	 * @param usuario
+	 * Lista todos Usuários pelo nome
 	 */
-	void removerUsuario(Usuario usuario);
-	
-	/**
-	 * Lista todos Usuários
-	 */
-	
-	List<Usuario> listarTodos();
+	List<Usuario> buscarPorNome(String nome);
 }

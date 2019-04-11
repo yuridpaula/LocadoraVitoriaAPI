@@ -1,7 +1,6 @@
 package com.locadoravitoria.api.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +25,7 @@ import com.locadoravitoria.api.entities.Grupo;
 @RestController
 @RequestMapping("/api/grupo")
 @CrossOrigin(origins = "*")
-public class GrupoController {
+public class GrupoController extends GenericController<Grupo, Long> {
 	private static final Logger log = LoggerFactory.getLogger(GrupoController.class);
 
 	@Autowired
@@ -40,7 +40,7 @@ public class GrupoController {
 	 * 
 	 * @param Grupo
 	 * @param result
-	 * @return ResponseEntity<Response<GrupoDto>>
+	 * @return ResponseEntity<Response<Grupo>>
 	 */
 	@PostMapping
 	public ResponseEntity<Response<Grupo>> cadastrar(@Valid @RequestBody Grupo grupo, BindingResult result) {
@@ -63,60 +63,39 @@ public class GrupoController {
 	}
 
 	/**
-	 * Retorna uma lista de todos Grupos
+	 * Método de busca por nome
 	 * 
-	 * @return ResponseEntity<Response<List<GrupoDto>>>
+	 * @param nome
+	 * @return ResponseEntity<Response<List<Grupo>>>
 	 */
-	@GetMapping
-	public ResponseEntity<Response<List<Grupo>>> listarTodos() {
+	@GetMapping(value = "/nome/{nome}")
+	public ResponseEntity<Response<List<Grupo>>> buscarPorNome(@PathVariable("nome") String nome) {
+
+		log.info("Buscando grupos pelo nome: {}", nome);
 		Response<List<Grupo>> response = new Response<List<Grupo>>();
 
-		List<Grupo> grupos = grupoService.listarTodos();
+		List<Grupo> grupos = grupoService.buscarPorNome(nome);
 
 		if (grupos.isEmpty()) {
-			log.info("Nenhum grupo encontrado.");
-			response.getErrors().add("Nenhum grupo encontrado.");
+			log.info("Nenhum grupo encontrado para o nome: {}", nome);
+			response.getErrors().add("Nenhum grupo encontrado para o nome: " + nome);
 			return ResponseEntity.badRequest().body(response);
 		}
-
-		grupos.stream().sorted((p1, p2) -> p1.getNome().compareTo(p2.getNome()));
 
 		response.setData(grupos);
 		return ResponseEntity.ok(response);
 	}
 
 	/**
-	 * Método de busca do Grupo por ID
-	 * 
-	 * @param id
-	 * @return ResponseEntity<Response<Grupo>>
-	 */
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Response<Grupo>> buscarPorId(@PathVariable("id") Long id) {
-
-		log.info("Buscando grupo pelo ID: {}", id);
-		Response<Grupo> response = new Response<Grupo>();
-
-		Optional<Grupo> grupo = grupoService.buscarPorId(id);
-
-		if (!grupo.isPresent()) {
-			log.info("Grupo não encontrado para o ID: {}", id);
-			response.getErrors().add("Grupo não encontrado para o ID: " + id);
-			return ResponseEntity.badRequest().body(response);
-		}
-
-		response.setData(grupo.get());
-		return ResponseEntity.ok(response);
-	}
-
-	/**
 	 * Validações especificas
 	 * 
-	 * @param GrupoDto
+	 * @param Grupo
 	 * @param result
 	 */
 	public void validarDadosExistentes(Grupo grupo, BindingResult result) {
-		// sem validações especificas
+		if (grupo.getId() != null) {
+			result.addError(new ObjectError("Id", "Grupo possui id, utilizar método PUT para atualizar dados."));
+		}
 	}
 
 }

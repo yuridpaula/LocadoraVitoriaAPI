@@ -14,12 +14,12 @@ import com.locadoravitoria.api.services.GrupoService;
 
 @Service
 public class GrupoServiceImpl implements GrupoService {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(GrupoServiceImpl.class);
-	
+
 	@Autowired
-	private GrupoRepository grupoRepository; 
-	
+	private GrupoRepository grupoRepository;
+
 	@Override
 	public Optional<Grupo> buscarPorId(Long id) {
 		log.info("Buscando grupo pelo ID {}", id);
@@ -33,7 +33,7 @@ public class GrupoServiceImpl implements GrupoService {
 	}
 
 	@Override
-	public void removerGrupo(Grupo grupo) {
+	public void remover(Grupo grupo) {
 		log.info("Removendo grupo: {}", grupo);
 		this.grupoRepository.delete(grupo);
 	}
@@ -41,9 +41,13 @@ public class GrupoServiceImpl implements GrupoService {
 	@Override
 	public List<Grupo> listarTodos() {
 		log.info("Buscando todos grupos");
-		return this.grupoRepository.findAll();
+		return this.grupoRepository.findAllByOrderByNome();
 	}
-	
-	
+
+	@Override
+	public List<Grupo> buscarPorNome(String nome) {
+		log.info("Buscando todos grupos pelo nome {}", nome);
+		return this.grupoRepository.findByNomeIgnoreCaseContaining(nome);
+	}
 
 }

@@ -45,7 +45,7 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override
-	public void removerCliente(Cliente cliente) {
+	public void remover(Cliente cliente) {
 		log.info("Removendo cliente: {}", cliente);
 		this.clienteRepository.delete(cliente);
 	}

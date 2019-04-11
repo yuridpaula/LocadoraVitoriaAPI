@@ -1,46 +1,17 @@
 package com.locadoravitoria.api.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.locadoravitoria.api.entities.Produto;
 
-public interface ProdutoService {
-	/**
-	 * Retorna o produto
-	 * 
-	 * @param id
-	 * @return Optional<Produto>
-	 */
-	Optional<Produto> buscarPorId(Long id);
+public interface ProdutoService extends GenericService<Produto, Long>{
 
 	/**
-	 * Cadastra um novo produto
+	 * Lista todos os produtos pelo nome
 	 * 
-	 * @param Produto
-	 * @return Produto
-	 */
-	Produto persistir(Produto produto);
-
-	/**
-	 * Remove um Produto
-	 * 
-	 * @param Produto
-	 */
-	void removerProduto(Produto produto);
-
-	/**
-	 * Lista todos os produtos
+	 * @param nome
 	 * 
 	 * @return List<Produto>
 	 */
-	List<Produto> listarTodos();
-
-	/**
-	 * Lista todos os produtos de um determinado grupo
-	 * 
-	 * @return List<Produto>
-	 */
-	List<Produto> buscarPorGrupo(Long grupo);
-
+	List<Produto> buscarPorNome(String nome);
 }

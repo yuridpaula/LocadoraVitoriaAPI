@@ -1,6 +1,7 @@
 package com.locadoravitoria.api.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 @Entity
 @Table(name = "produto")
 public class Produto implements Serializable {
@@ -36,14 +43,19 @@ public class Produto implements Serializable {
 	@OneToOne
 	private Grupo grupo;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	   @JoinTable(name="combo",
-	             joinColumns={@JoinColumn(name="produto_id",
-	              referencedColumnName="id")},
-	             inverseJoinColumns={@JoinColumn(name="produto_combo_id",
-	               referencedColumnName="id")})
-	@JsonManagedReference   
-	private List<Produto> combo;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "produto_pai_id")
+	//@JsonBackReference
+	List<Sub> subs = new ArrayList<>();
+	
+//	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+//	   @JoinTable(name="combo",
+//	             joinColumns={@JoinColumn(name="produto_id",
+//	              referencedColumnName="id")},
+//	             inverseJoinColumns={@JoinColumn(name="produto_combo_id",
+//	               referencedColumnName="id")})
+//	@JsonManagedReference   
+//	private List<Produto> combo;
 	
 	@Column(name = "data_criacao", nullable = false)
 	private Date dataCriacao;
@@ -92,6 +104,15 @@ public class Produto implements Serializable {
 
 	public void setCaracteristica(String caracteristica) {
 		this.caracteristica = caracteristica;
+	}
+	
+	
+	public List<Sub> getSubs() {
+		return subs;
+	}
+
+	public void setSubs(List<Sub> subs) {
+		this.subs = subs;
 	}
 
 	@PrePersist

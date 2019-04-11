@@ -34,7 +34,7 @@ public class TipoContatoServiceImpl implements TipoContatoService {
 	}
 
 	@Override
-	public void removerTipoContato(TipoContato tipoContato) {
+	public void remover(TipoContato tipoContato) {
 		log.info("Removendo tipoContato: {}", tipoContato);
 		this.tipoContatoRepository.delete(tipoContato);
 	}
@@ -42,7 +42,13 @@ public class TipoContatoServiceImpl implements TipoContatoService {
 	@Override
 	public List<TipoContato> listarTodos() {
 		log.info("Buscando todos tipoContatos");
-		return this.tipoContatoRepository.findAll();
+		return this.tipoContatoRepository.findAllByOrderByNome();
+	}
+
+	@Override
+	public List<TipoContato> buscarPorNome(String nome) {
+		log.info("Buscando todos tipoContatos pelo nome {}", nome);
+		return this.tipoContatoRepository.findByNomeIgnoreCaseContaining(nome);
 	}
 
 }

@@ -33,13 +33,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Optional<Usuario> buscarPorEmail(String email) {
+	public List<Usuario> buscarPorEmail(String email) {
 		log.info("Buscando usuario pelo Email {}", email);
-		return usuarioRepository.findByEmail(email);
+		return usuarioRepository.findByEmailIgnoreCaseContaining(email);
 	}
 
 	@Override
-	public void removerUsuario(Usuario usuario) {
+	public void remover(Usuario usuario) {
 		log.info("Removendo usuario: {}", usuario);
 		this.usuarioRepository.delete(usuario);
 	}
@@ -47,6 +47,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public List<Usuario> listarTodos() {
 		log.info("Buscando Todos usuarios");
-		return this.usuarioRepository.findAll();
+		return this.usuarioRepository.findAllByOrderByNome();
+	}
+
+	@Override
+	public List<Usuario> buscarPorNome(String nome) {
+		log.info("Buscando Todos usuarios pelo nome {}", nome);
+		return this.usuarioRepository.findAllByOrderByNome();
 	}	
 }
